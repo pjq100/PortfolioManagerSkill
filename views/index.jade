@@ -3,3 +3,15 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+
+block portfolio_creation_form
+  form(onsubmit="return false")
+    label(for="portfolio_id_create") Create Portfolio ID:
+    input#portfolio_id_create(type="text" name="portfolio_id_create")
+    button(type="submit" onclick="return createPortfolio()") Submit
+
+block portfolio_get_form
+  form(onsubmit="return false")
+  label(for="portfolio_id_get") Get Portfolio ID:
+  input#portfolio_id_get(type="text" name="portfolio_id_get")
+  button(type="submit" onclick="return getPortfolio()") Submit

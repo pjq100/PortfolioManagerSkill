@@ -3,5 +3,14 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js")
+    script(src="/javascripts/client.js")
   body
     block content
+    block portfolio_creation_form
+    block portfolio_get_form
+    block portfolio_info
+    block add_stock_form
+    block remove_stock_form
+    block lookup_stock_quote_form
+    block stock_quote_response

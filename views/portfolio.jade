@@ -1,0 +1,35 @@
+//
+   Created by Peter on 4/11/17.
+extends layout
+
+block portfolio_info
+    h1#portfolio_id #{portfolio.portfolio_id}
+    ul#stock_list
+        each stock, index in portfolio.stock_list
+            li(id="#{stock}") #{stock}   #{portfolio.stock_quantities[index]}
+
+block add_stock_form
+    form(onsubmit="return false")
+    label(for="add_stock") Add Stock (Enter Ticker):
+    input#add_stock(type="text" name="add_stock")
+    label(for="add_stock_number") Quantity (Enter Number):
+    input#add_stock_number(type="text" name="add_stock_number")
+    button(type="submit" onclick="return addStock()") Submit
+
+block remove_stock_form
+    form(onsubmit="return false")
+    label(for="remove_stock") Remove Stock (Enter Ticker):
+    input#remove_stock(type="text" name="remove_stock")
+    label(for="remove_stock_number") Quantity (Enter Number):
+    input#remove_stock_number(type="text" name="remove_stock_number")
+    button(type="submit" onclick="return removeStock()") Submit
+
+block lookup_stock_quote_form
+    form(onsubmit="return false")
+    label(for="stock_quote") Lookup Stock Quote (Enter Ticker):
+    input#stock_quote(type="text" name="stock_quote")
+    button(type="submit" onclick="return lookupStockQuote()") Submit
+
+block stock_quote_response
+    div#stock_name
+    div#stock_price
