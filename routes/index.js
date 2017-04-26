@@ -16,22 +16,12 @@ router.post('/portfolio/:id/stock/:ticker', portfolio_controller.addStockToPortf
 
 router.delete('/portfolio/:id/stock/:ticker', portfolio_controller.removeStockFromPortfolio);
 
+router.get('/portfolio/:id/performance/:time', portfolio_controller.getPortfolioPerformance);
+
+router.get('/portfolio/:id/volatility/:time', portfolio_controller.getPortfolioVolatility);
+
 router.get('/stock/:ticker', stock_controller.getStockQuote);
 
-router.get('/portfolio/:id/performance/:time', function(req, res){
-
-});
-
-router.get('/portfolio/:id/correlation/:time', function(req, res){
-
-});
-
-router.get('/portfolio/:id/volatility/:time', function(req, res){
-
-});
-
-router.get('/portfolio/:id/index/:name/comparison/:time', function(req,res){
-
-});
+router.get('/stock/volatility/:ticker1/:ticker2', stock_controller.getStockCorrelation);
 
 module.exports = router;

@@ -5,6 +5,7 @@
 let request = require('request');
 let parseString = require('xml2js').parseString;
 let tradier_key = require('../config/tradier_key');
+let stock_helpers = require('../helpers/stock');
 
 function getStockQuote(req, res){
     let ticker = req.params.ticker;
@@ -42,4 +43,21 @@ function getStockQuote(req, res){
     request(options, callback);
 }
 
-module.exports = { getStockQuote };
+function getStockCorrelation(req, res){
+    let ticker1 = req.params.ticker1;
+    let ticker2 = req.params.ticker2;
+
+    function cb(correlation){
+        if(correlation == false){
+            res.status(500).send('Server error. Could not calculate correlation');
+
+        }
+        res.status(200).send({
+            correlation: correlation
+        });
+    }
+
+    stock_helpers.calculateStockCorrelation(ticker1, ticker2, cb);
+}
+
+module.exports = { getStockQuote, getStockCorrelation };

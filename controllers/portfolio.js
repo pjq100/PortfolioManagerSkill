@@ -40,7 +40,6 @@ function addStockToPortfolio(req, res){
     let portfolio_id = req.params.id;
     let ticker = req.params.ticker;
     let quantity = parseInt(req.body.quantity);
-    console.log("PL"+quantity);
 
     if(isNaN(quantity)){
         res.status(400).send("Client error. Please enter a valid number");
@@ -55,7 +54,7 @@ function addStockToPortfolio(req, res){
       }
     };
 
-    //Setting callback for request to see if ticker entered is a valid ticker
+    //Setting callback for request to see if ticker entered is a valid ticker and to add it to portfolio if it is
     function callback(error, response, body){
         console.log('error:', error);
         if(error){
@@ -70,12 +69,13 @@ function addStockToPortfolio(req, res){
                 res.status(400).send("Please enter a valid stock, ETF, or index ticker");
             }
             else{
-                portfolio_model.addStock(portfolio_id, ticker, quantity, function(portfolio, update){
+                portfolio_model.addStock(portfolio_id, ticker, quantity, function(portfolio, update, index){
+                    console.log("INDEX"+index);
                     if(portfolio){
                         console.log(portfolio);
                         res.status(201).send({
                             ticker: ticker,
-                            quantity: portfolio.stock_quantities[portfolio.stock_list.indexOf(ticker)],
+                            quantity: portfolio.stock_list[index].quantity,
                             update: update
                         });
                     }
@@ -101,14 +101,13 @@ function removeStockFromPortfolio(req, res){
         return;
     }
 
-    portfolio_model.removeStock(portfolio_id, ticker, quantity, function(portfolio, removal_performed, deleted){
+    portfolio_model.removeStock(portfolio_id, ticker, quantity, function(portfolio, removal_performed, deleted, index){
         if(portfolio){
             if(removal_performed){
-                let index = portfolio.stock_list.indexOf(ticker);
                 if(index > -1){
                     res.status(201).send({
                         ticker: ticker,
-                        quantity: portfolio.stock_quantities[index],
+                        quantity: portfolio.stock_list[index].quantity,
                         deleted: deleted
                     })
                 }
@@ -129,20 +128,36 @@ function removeStockFromPortfolio(req, res){
     });
 }
 
-function calculatePortfolioPerformance(req, res){
+function getPortfolioPerformance(req, res){
+    let portfolio_id = req.params.id;
+    let time = parseInt(req.params.time);
+
+    if(isNaN(time)){
+        res.status(400).send("Client error. Please enter a valid number of days");
+        return;
+    }
+
+    portfolio_model.getPortfolio(portfolio_id, function(portfolio){
+        if(!portfolio){
+            res.status(404).send('Could not find existing portfolio with specified ID');
+        }
+        else{
+            function cb(performance){
+                if(performance == false){
+                    res.status(500).send('Server error. Could not calculate performance');
+
+                }
+                res.status(200).send({
+                    performace: performance
+                });
+            }
+            portfolio_helpers.calculatePortfolioPerformance(portfolio, time, cb);
+        }
+    });
+}
+
+function getPortfolioVolatility(req, res){
 
 }
 
-function calculatePortfolioVolatility(req, res){
-
-}
-
-function calculatePortfolioCorrelation(req, res){
-
-}
-
-function comparePortfolioPerformance(req, res){
-
-}
-
-module.exports = { createPortfolio, getPortfolio, addStockToPortfolio, removeStockFromPortfolio, calculatePortfolioPerformance, calculatePortfolioVolatility, calculatePortfolioCorrelation, comparePortfolioPerformance };
+module.exports = { createPortfolio, getPortfolio, addStockToPortfolio, removeStockFromPortfolio, getPortfolioPerformance, getPortfolioVolatility };

@@ -6,7 +6,7 @@ block portfolio_info
     h1#portfolio_id #{portfolio.portfolio_id}
     ul#stock_list
         each stock, index in portfolio.stock_list
-            li(id="#{stock}") #{stock}   #{portfolio.stock_quantities[index]}
+            li(id="#{stock.ticker}") #{stock.ticker}   #{stock.quantity}
 
 block add_stock_form
     form(onsubmit="return false")
@@ -33,3 +33,10 @@ block lookup_stock_quote_form
 block stock_quote_response
     div#stock_name
     div#stock_price
+
+block portfolio_performance
+    form(onsubmit="return false")
+    label(for="portfolio_performance_days") Enter Number of Days to Get Performance Over:
+    input#portfolio_performance_days(type="text" name="portfolio_performance_days")
+    button(type="submit" onclick="return getPortfolioPerformance()") Get Portfolio Performance
+    div#portfolio_performance

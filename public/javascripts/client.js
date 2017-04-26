@@ -131,3 +131,32 @@ function lookupStockQuote(){
         alert("Please enter a ticker to lookup a quote")
     }
 }
+
+function getPortfolioPerformance(){
+    let portfolio_id = $('#portfolio_id').text();
+    let days = $('#portfolio_performance_days').val();
+    if(days!=""){
+        console.log("EYY"+days);
+        $.ajax({
+            url: '/portfolio/'+portfolio_id+"/performance/"+days,
+            type: 'GET',
+            statusCode: {
+                200: function(res){
+                    $('#portfolio_performance').text(res.performace + '%');
+                },
+                400: function(res){
+                    alert(res.status + " " + res.statusText + ".  " + res.responseText);
+                },
+                404: function(res){
+                    alert(res.status + " " + res.statusText + ".  " + res.responseText);
+                },
+                500: function(res){
+                    alert(res.status + " " + res.statusText + ".  " + res.responseText);
+                }
+            }
+        });
+    }
+    else{
+        alert("Please enter number of days to calculate performance over")
+    }
+}
