@@ -11,7 +11,6 @@ let tradier_key = require('../config/tradier_key');
 
 function createPortfolio(req, res){
     let portfolio_id = req.params.id;
-    console.log("Inside create portfolio");
     portfolio_model.createPortfolio(portfolio_id, function(portfolio){
         if(!portfolio){
            res.status(500).send('Server error. Portfolio not created')

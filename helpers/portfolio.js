@@ -8,7 +8,7 @@ let request = require('request');
 
 function calculatePortfolioPerformance(portfolio, time, cb){
     let d = new Date();
-    d.setDate(d.getDate() - time);
+    d.setDate(d.getDate() - (time-1));
     let day= d.getDate();
     let month = d.getMonth() + 1;
     let year = d.getFullYear();

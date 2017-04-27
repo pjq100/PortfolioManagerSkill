@@ -46,18 +46,27 @@ function getStockQuote(req, res){
 function getStockCorrelation(req, res){
     let ticker1 = req.params.ticker1;
     let ticker2 = req.params.ticker2;
+    let time = parseInt(req.params.time);
+
+    if(isNaN(time)){
+        res.status(400).send("Client error. Please enter a valid number");
+        return;
+    }
 
     function cb(correlation){
         if(correlation == false){
             res.status(500).send('Server error. Could not calculate correlation');
-
         }
-        res.status(200).send({
-            correlation: correlation
-        });
+        else if(correlation == "Bad Ticker"){
+            res.status(400).send("Client error. Please enter valid tickers");
+        }
+        else{
+            res.status(200).send({
+                correlation: correlation
+            });
+        }
     }
-
-    stock_helpers.calculateStockCorrelation(ticker1, ticker2, cb);
+    stock_helpers.getStockPricesForCorrelationCalculation(ticker1, ticker2, time, cb);
 }
 
 module.exports = { getStockQuote, getStockCorrelation };

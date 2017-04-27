@@ -40,3 +40,14 @@ block portfolio_performance
     input#portfolio_performance_days(type="text" name="portfolio_performance_days")
     button(type="submit" onclick="return getPortfolioPerformance()") Get Portfolio Performance
     div#portfolio_performance
+
+block stock_correlation
+    form(onsubmit="return false")
+    label(for="stock_correlation_ticker1") Enter Ticker 1:
+    input#stock_correlation_ticker1(type="text" name="stock_correlation_ticker1")
+    label(for="stock_correlation_ticker2") Enter Ticker 2:
+    input#stock_correlation_ticker2(type="text" name="stock_correlation_ticker2")
+    label(for="stock_correlation_days") Enter Number of Days for Correlation Calculation:
+    input#stock_correlation_days(type="text" name="stock_correlation_days")
+    button(type="submit" onclick="return getStockCorrelation()") Get Stock Correlation
+    div#stock_correlation

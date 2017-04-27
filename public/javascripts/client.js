@@ -136,7 +136,6 @@ function getPortfolioPerformance(){
     let portfolio_id = $('#portfolio_id').text();
     let days = $('#portfolio_performance_days').val();
     if(days!=""){
-        console.log("EYY"+days);
         $.ajax({
             url: '/portfolio/'+portfolio_id+"/performance/"+days,
             type: 'GET',
@@ -158,5 +157,31 @@ function getPortfolioPerformance(){
     }
     else{
         alert("Please enter number of days to calculate performance over")
+    }
+}
+
+function getStockCorrelation(){
+    let ticker_1 = $('#stock_correlation_ticker1').val();
+    let ticker_2 = $('#stock_correlation_ticker2').val();
+    let days = $('#stock_correlation_days').val();
+    if(ticker_1 != "" && ticker_2 != "" && days != ""){
+        $.ajax({
+            url: '/stock/' + ticker_1 + "/" + ticker_2 + "/correlation/" + days,
+            type: 'GET',
+            statusCode: {
+                200: function(res){
+                    $('#stock_correlation').text(res.correlation);
+                },
+                400: function(res){
+                    alert(res.status + " " + res.statusText + ".  " + res.responseText);
+                },
+                500: function(res){
+                    alert(res.status + " " + res.statusText + ".  " + res.responseText);
+                }
+            }
+        })
+    }
+    else{
+        alert("Please enter two valid tickers and the number of days to calculate correlation over");
     }
 }

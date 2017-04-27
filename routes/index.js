@@ -22,6 +22,6 @@ router.get('/portfolio/:id/volatility/:time', portfolio_controller.getPortfolioV
 
 router.get('/stock/:ticker', stock_controller.getStockQuote);
 
-router.get('/stock/volatility/:ticker1/:ticker2', stock_controller.getStockCorrelation);
+router.get('/stock/:ticker1/:ticker2/correlation/:time', stock_controller.getStockCorrelation);
 
 module.exports = router;
