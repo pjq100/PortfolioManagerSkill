@@ -22,8 +22,16 @@ function calculatePortfolioPerformance(portfolio, time, cb){
     for(let i = 0; i < portfolio.stock_list.length; i++){
         let stock = portfolio.stock_list[i];
         let date_used = date;
-        if(year < stock.purchase_year || (year > stock.purchase_year && month < stock.purchase_month) || (year > stock.purchase_year && month > stock.purchase_month && day < stock.purchase_day)){
-            date_used = stock.purchase_year + "-" + stock.purchase_month + "-" + stock.purchase_day;
+        let month_used = stock.purchase_month;
+        let day_used = stock.purchase_day;
+        if(year < stock.purchase_year || (year >= stock.purchase_year && month < stock.purchase_month) || (year >= stock.purchase_year && month >= stock.purchase_month && day < stock.purchase_day)){
+            if(stock.purchase_month < 10){
+                month_used = "0" + month_used;
+            }
+            if(stock.purchase_day < 10){
+                day_used = "0" + day_used;
+            }
+            date_used = stock.purchase_year + "-" + month_used + "-" + day_used;
         }
 
         let options = {

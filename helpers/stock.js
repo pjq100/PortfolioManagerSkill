@@ -94,7 +94,7 @@ function calculateStockCorrelation(prices_1, prices_2, cb){
         deviations_1[i] = mean_price_1 - deviations_1[i];
     }
     for(let i = 0; i < deviations_2.length; i++){
-        deviations_2[i] = mean_price_1 - deviations_2[i];
+        deviations_2[i] = mean_price_2 - deviations_2[i];
     }
 
     let covariance_array = [];
